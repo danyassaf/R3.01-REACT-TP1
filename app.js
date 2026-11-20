@@ -1,7 +1,20 @@
-import {injectElements, renewTag} from "./functions/dom.js";
+import { injectElements, renewTag, createElement } from "./functions/dom.js";
 
 const wrapper = document.querySelector('#controle')
 
+const btnStart = document.querySelector('#start');
+
+btnStart.innerText = "Calculer";
+
+const labelSaisie = createElement('label', { for: 'saisie' });
+labelSaisie.innerText = "Combien de tasses de café ? ";
+
+const saisie = createElement('input', {
+    type: 'number',
+    id: 'saisie'
+});
+
+wrapper.prepend(labelSaisie, saisie);
 function start() {
 
     const etapes = [
@@ -20,6 +33,19 @@ function start() {
 
 }
 
-document.querySelector('#start').addEventListener('click', start)
+function calculer() {
+    const nbTasses = Number(saisie.value);
+    const resultats = [
+        { title: `Pour ${nbTasses} tasses de café, il faut :`, duree: 200 },
+        { title: `${nbTasses * 200} ml d'eau`, duree: 200 },
+        { title: `${nbTasses * 50} ml de lait`, duree: 200 },
+        { title: `${nbTasses * 15} g de grains de café`, duree: 200 }
+    ];
 
+    const laListe = renewTag('ul');
+    wrapper.append(laListe);
+    injectElements(resultats, laListe);
+}
+
+btnStart.addEventListener('click', calculer);
 
